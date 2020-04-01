@@ -1,3 +1,6 @@
 [submodule "minetest"]
 	path = minetest
 	url = https://github.com/CivtestGame/minetest
+[submodule "civtest_game"]
+	path = civtest_game
+	url = https://github.com/CivtestGame/civtest_game
