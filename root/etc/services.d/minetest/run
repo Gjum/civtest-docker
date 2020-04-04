@@ -3,6 +3,6 @@
 exec \
 	s6-setuidgid abc minetestserver \
 	--gameid civtest_game \
-	--config /config/.minetest/main-config/minetest.conf \
+	--config /config/.minetest/minetest.conf \
 	${CLI_ARGS} \
 	--port 30000

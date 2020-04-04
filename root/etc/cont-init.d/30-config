@@ -3,13 +3,12 @@
 # make our folders
 mkdir -p \
 	/config/.minetest/games \
-	/config/.minetest/mods \
-	/config/.minetest/main-config
+	/config/.minetest/mods
 
 # generate minetest config if not already present
 
-if [ ! -f "/config/.minetest/main-config/minetest.conf" ]; then
-	cp /defaults/minetest.conf /config/.minetest/main-config/minetest.conf
+if [ ! -f "/config/.minetest/minetest.conf" ]; then
+	cp /defaults/minetest.conf /config/.minetest/minetest.conf
 fi
 
 # generate world config if not already present

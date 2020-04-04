@@ -1,19 +1,4 @@
-# multiple build stages in order of change frequency instead of dependency, so
-# updating the server does not require installing build/deploy packages, and
-# updating the game does not require building the server
-
 FROM lsiobase/alpine:3.10 AS deploy-base
-
-ENV \
-HOME="/config" \
-MINETEST_SUBGAME_PATH="/config/.minetest/games" \
-WORLD_NAME="world" \
-BACKEND="sqlite3" \
-PG_HOST="" \
-PG_DB="mt" \
-PG_USER="mt" \
-PG_PASS="mt" \
-PG_PORT=5432
 
 RUN apk add --no-cache \
 	curl \
@@ -59,8 +44,7 @@ FROM build-base as build-server
 
 COPY ./minetest/ /usr/src/minetest
 
-# free up some space
-RUN rm -Rf /usr/src/minetest/games/minetest_game
+RUN rm -Rf /usr/src/minetest/games
 
 RUN	mkdir -p /usr/src/minetest/cmakebuild \
 	&& cd /usr/src/minetest/cmakebuild \
@@ -97,5 +81,16 @@ COPY ./root /
 WORKDIR /config/
 
 EXPOSE 30000/udp
+
+ENV \
+HOME="/config" \
+MINETEST_SUBGAME_PATH="/config/.minetest/games" \
+WORLD_NAME="world" \
+BACKEND="sqlite3" \
+PG_HOST="" \
+PG_DB="mt" \
+PG_USER="mt" \
+PG_PASS="mt" \
+PG_PORT=5432
 
 VOLUME /config/.minetest
