@@ -2,7 +2,7 @@ version: '2.1' # because we use depends_on with condition
 services:
   server:
     environment:
-      # CLI_ARGS: "--foo bar" # put your additional command line args here
+      CLI_ARGS: "--config /config/.minetest/games/civtest_game/minetest.conf"
 
       # PUID/PGID: user/group id of .minetest/ directory. See also https://github.com/linuxserver/docker-minetest/blob/master/README.md#user--group-identifiers
       PUID: 1000

@@ -17,8 +17,9 @@ WORLD_MT="/config/.minetest/worlds/$WORLD_NAME/world.mt"
 if [ -f $WORLD_MT ]
 then # $WORLD_MT already exists. update certain config values
 	TMP_WORLD_MT=$(mktemp)
-	egrep -v '^(backend|player_backend|auth_backend|pgsql_connection|pgsql_player_connection)\s*=' $WORLD_MT > $TMP_WORLD_MT
+	egrep -v '^(gameid|backend|player_backend|auth_backend|pgsql_connection|pgsql_player_connection)\s*=' $WORLD_MT > $TMP_WORLD_MT
 	echo -n '' > $WORLD_MT
+	echo -e "gameid = civtest" >> $WORLD_MT
 	echo -e "backend = $BACKEND" >> $WORLD_MT
 	echo -e "player_backend = $BACKEND" >> $WORLD_MT
 	echo -e "auth_backend = $BACKEND" >> $WORLD_MT
@@ -27,6 +28,7 @@ then # $WORLD_MT already exists. update certain config values
 	cat $TMP_WORLD_MT >> $WORLD_MT && rm $TMP_WORLD_MT
 else # $WORLD_MT doesn't exist. create it from scratch
 	mkdir -p "/config/.minetest/worlds/$WORLD_NAME"
+	echo -e "gameid = civtest" >> $WORLD_MT
 	echo -e "backend = $BACKEND" >> $WORLD_MT
 	echo -e "player_backend = $BACKEND" >> $WORLD_MT
 	echo -e "auth_backend = $BACKEND" >> $WORLD_MT
