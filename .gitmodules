@@ -7,3 +7,6 @@
 [submodule "mods/group_waypoints"]
 	path = mods/group_waypoints
 	url = https://github.com/Gjum/mt_group_waypoints
+[submodule ".minetest/games/civtest_game"]
+	path = .minetest/games/civtest_game
+	url = https://github.com/CivtestGame/civtest_game
