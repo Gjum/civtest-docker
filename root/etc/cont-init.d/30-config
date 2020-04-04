@@ -13,6 +13,8 @@ fi
 
 # generate world config if not already present
 
+EXTRA_MODS="$(ls -1 /config/.minetest/mods/ | tr '\n' ' ')"
+
 WORLD_MT="/config/.minetest/worlds/$WORLD_NAME/world.mt"
 if [ -f $WORLD_MT ]
 then # $WORLD_MT already exists. update certain config values
@@ -25,7 +27,15 @@ then # $WORLD_MT already exists. update certain config values
 	echo -e "auth_backend = $BACKEND" >> $WORLD_MT
 	echo -e "pgsql_connection = host=$PG_HOST port=$PG_PORT dbname=$PG_DB user=$PG_USER password=$PG_PASS" >> $WORLD_MT
 	echo -e "pgsql_player_connection = host=$PG_HOST port=$PG_PORT dbname=$PG_DB user=$PG_USER password=$PG_PASS" >> $WORLD_MT
-	cat $TMP_WORLD_MT >> $WORLD_MT && rm $TMP_WORLD_MT
+	cat $TMP_WORLD_MT >> $WORLD_MT
+	for mod in $EXTRA_MODS
+	do
+		mod="${mod,,}" # lowercase
+		egrep -vi "^load_mod_$mod\s*=" $WORLD_MT > $TMP_WORLD_MT
+		cat $TMP_WORLD_MT > $WORLD_MT
+		echo -e "load_mod_$mod = true" >> $WORLD_MT
+	done
+	rm $TMP_WORLD_MT
 else # $WORLD_MT doesn't exist. create it from scratch
 	mkdir -p "/config/.minetest/worlds/$WORLD_NAME"
 	echo -e "gameid = civtest" >> $WORLD_MT
@@ -34,6 +44,11 @@ else # $WORLD_MT doesn't exist. create it from scratch
 	echo -e "auth_backend = $BACKEND" >> $WORLD_MT
 	echo -e "pgsql_connection = host=$PG_HOST port=$PG_PORT dbname=$PG_DB user=$PG_USER password=$PG_PASS" >> $WORLD_MT
 	echo -e "pgsql_player_connection = host=$PG_HOST port=$PG_PORT dbname=$PG_DB user=$PG_USER password=$PG_PASS" >> $WORLD_MT
+	for mod in $EXTRA_MODS
+	do
+		mod="${mod,,}" # lowercase
+		echo -e "load_mod_$mod = true" >> $WORLD_MT
+	done
 fi
 
 # permissions
