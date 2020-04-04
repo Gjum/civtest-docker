@@ -85,6 +85,7 @@ EXPOSE 30000/udp
 ENV \
 HOME="/config" \
 MINETEST_SUBGAME_PATH="/config/.minetest/games" \
+GAME_NAME="civtest" \
 WORLD_NAME="world" \
 BACKEND="sqlite3" \
 PG_HOST="" \

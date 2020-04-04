@@ -1,8 +1,9 @@
 #!/usr/bin/with-contenv bash
 
 exec \
-	s6-setuidgid abc minetestserver \
-	--gameid civtest_game \
-	--config /config/.minetest/minetest.conf \
+	s6-setuidgid abc \
+	minetestserver \
+	--gameid "$GAME_NAME" \
+	--config /defaults/minetest.conf \
 	${CLI_ARGS} \
 	--port 30000
