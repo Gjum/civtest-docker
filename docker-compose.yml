@@ -8,6 +8,8 @@ services:
       PUID: 1000
       PGID: 1000
 
+      PG_HOST: db # postgres host (here: name of the service below)
+
     volumes:
       - ./.minetest/:/config/.minetest/
 
@@ -21,6 +23,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
   db:
     image: postgres:alpine
     environment:

@@ -18,20 +18,21 @@ WORLD_MT="/config/.minetest/worlds/$WORLD_NAME/world.mt"
 if [ -f $WORLD_MT ]
 then # $WORLD_MT already exists. update certain config values
 	TMP_WORLD_MT=$(mktemp)
-	# egrep -v '^(backend|player_backend|pgsql_connection|pgsql_player_connection)\s*=' $WORLD_MT > $TMP_WORLD_MT
-	egrep -v '^(pgsql_connection)\s*=' $WORLD_MT > $TMP_WORLD_MT
+	egrep -v '^(backend|player_backend|pgsql_connection|pgsql_player_connection)\s*=' $WORLD_MT > $TMP_WORLD_MT
 	echo -n '' > $WORLD_MT
-	# echo -e "backend = $BACKEND" >> $WORLD_MT
-	# echo -e "player_backend = $BACKEND" >> $WORLD_MT
+	echo -e "backend = $BACKEND" >> $WORLD_MT
+	echo -e "player_backend = $BACKEND" >> $WORLD_MT
+	echo -e "auth_backend = $BACKEND" >> $WORLD_MT
 	echo -e "pgsql_connection = host=$PG_HOST port=$PG_PORT dbname=$PG_DB user=$PG_USER password=$PG_PASS" >> $WORLD_MT
-	# echo -e "pgsql_player_connection = host=$PG_HOST port=$PG_PORT dbname=$PG_DB user=$PG_USER password=$PG_PASS" >> $WORLD_MT
+	echo -e "pgsql_player_connection = host=$PG_HOST port=$PG_PORT dbname=$PG_DB user=$PG_USER password=$PG_PASS" >> $WORLD_MT
 	cat $TMP_WORLD_MT >> $WORLD_MT && rm $TMP_WORLD_MT
 else # $WORLD_MT doesn't exist. create it from scratch
 	mkdir -p "/config/.minetest/worlds/$WORLD_NAME"
-	# echo -e "backend = $BACKEND" >> $WORLD_MT
-	# echo -e "player_backend = $BACKEND" >> $WORLD_MT
+	echo -e "backend = $BACKEND" >> $WORLD_MT
+	echo -e "player_backend = $BACKEND" >> $WORLD_MT
+	echo -e "auth_backend = $BACKEND" >> $WORLD_MT
 	echo -e "pgsql_connection = host=$PG_HOST port=$PG_PORT dbname=$PG_DB user=$PG_USER password=$PG_PASS" >> $WORLD_MT
-	# echo -e "pgsql_player_connection = host=$PG_HOST port=$PG_PORT dbname=$PG_DB user=$PG_USER password=$PG_PASS" >> $WORLD_MT
+	echo -e "pgsql_player_connection = host=$PG_HOST port=$PG_PORT dbname=$PG_DB user=$PG_USER password=$PG_PASS" >> $WORLD_MT
 fi
 
 # permissions

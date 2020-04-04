@@ -8,7 +8,7 @@ ENV \
 HOME="/config" \
 MINETEST_SUBGAME_PATH="/config/.minetest/games" \
 WORLD_NAME="world" \
-BACKEND="sqlite" \
+BACKEND="sqlite3" \
 PG_HOST="" \
 PG_DB="mt" \
 PG_USER="mt" \
