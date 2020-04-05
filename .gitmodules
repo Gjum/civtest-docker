@@ -2,24 +2,19 @@
 	path = minetest
 	url = https://github.com/CivtestGame/minetest.git
 	branch = .
-	ignore = all
 [submodule ".minetest/games/civtest_game"]
 	path = .minetest/games/civtest_game
 	url = https://github.com/CivtestGame/civtest_game.git
 	branch = .
-	ignore = all
 [submodule ".minetest/mods/PlayerManager"]
 	path = .minetest/mods/PlayerManager
 	url = https://github.com/CivtestGame/PlayerManager.git
 	branch = .
-	ignore = all
 [submodule ".minetest/mods/Citadella"]
 	path = .minetest/mods/Citadella
 	url = https://github.com/CivtestGame/Citadella.git
 	branch = .
-	ignore = all
 [submodule ".minetest/mods/CivSupporter"]
 	path = .minetest/mods/CivSupporter
 	url = https://github.com/CivtestGame/CivSupporter.git
 	branch = .
-	ignore = all
