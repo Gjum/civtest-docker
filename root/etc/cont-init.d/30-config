@@ -25,9 +25,9 @@ then # $WORLD_MT already exists. update certain config values
 	for mod in $EXTRA_MODS
 	do
 		mod="${mod,,}" # lowercase
-		egrep -vi "^load_mod_$mod\s*=" $WORLD_MT > $TMP_WORLD_MT
-		cat $TMP_WORLD_MT > $WORLD_MT
-		echo -e "load_mod_$mod = true" >> $WORLD_MT
+		# add mod if not already enabled/disabled
+		egrep -iq "^load_mod_$mod\s*=" $WORLD_MT \
+			|| echo -e "load_mod_$mod = true" >> $WORLD_MT
 	done
 	rm $TMP_WORLD_MT
 else # $WORLD_MT doesn't exist. create it from scratch
