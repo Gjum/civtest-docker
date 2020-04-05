@@ -40,6 +40,18 @@ RUN apk add --no-cache \
 	python-dev \
 	sqlite-dev
 
+RUN cd /tmp \
+	&& curl -sSL http://luarocks.org/releases/luarocks-3.3.1.tar.gz | tar -xvz \
+	&& cd luarocks-* \
+	&& ./configure --prefix=/usr/ \
+	&& make \
+	&& make install \
+	&& rm -rf /tmp/luarocks-*
+
+RUN luarocks install luasql-postgres
+
+RUN rm -Rf /usr/lib/luarocks/rocks*/*/*/doc/
+
 FROM build-base as build-server
 
 COPY ./minetest/ /usr/src/minetest
@@ -61,8 +73,6 @@ RUN	mkdir -p /usr/src/minetest/cmakebuild \
 	-DENABLE_POSTGRESQL=TRUE \
 	-DENABLE_SYSTEM_GMP=TRUE \
 	-DENABLE_SYSTEM_JSONCPP=TRUE \
-	-DPOSTGRESQL_CONFIG_EXECUTABLE=/usr/bin/pg_config \
-	-DPOSTGRESQL_LIBRARY=/usr/lib/libpq.so \
 	-DRUN_IN_PLACE=FALSE \
 	&& make -j2
 
@@ -71,11 +81,11 @@ RUN cd /usr/src/minetest/cmakebuild \
 
 FROM deploy-base
 
+COPY --from=build-server /usr/lib/lua/ /usr/lib/lua/
 COPY --from=build-server /usr/share/minetest /usr/share/minetest
 COPY --from=build-server /usr/bin/minetestserver /usr/bin/minetestserver
 COPY --from=build-server /usr/src/minetest/minetest.conf.example /defaults/minetest.conf
 
-# add local files
 COPY ./root /
 
 WORKDIR /config/
@@ -83,15 +93,15 @@ WORKDIR /config/
 EXPOSE 30000/udp
 
 ENV \
-HOME="/config" \
-MINETEST_SUBGAME_PATH="/config/.minetest/games" \
-GAME_NAME="civtest" \
-WORLD_NAME="world" \
-BACKEND="sqlite3" \
-PG_HOST="" \
-PG_DB="mt" \
-PG_USER="mt" \
-PG_PASS="mt" \
-PG_PORT=5432
+	HOME="/config" \
+	MINETEST_SUBGAME_PATH="/config/.minetest/games" \
+	GAME_NAME="civtest" \
+	WORLD_NAME="world" \
+	BACKEND="sqlite3" \
+	PG_HOST="" \
+	PG_DB="mt" \
+	PG_USER="mt" \
+	PG_PASS="mt" \
+	PG_PORT=5432
 
 VOLUME /config/.minetest
